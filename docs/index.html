@@ -108,28 +108,28 @@
 
       // White rectangle for text background
       ctx.fillStyle = "white";
-      ctx.fillRect(200, 730, 350, 150);
+      ctx.fillRect(200, 660, 350, 150);
 
-      // Name
+      // Name (dark blue, bigger font)
       if (name) {
-        ctx.font = "28px 'Pacifico', cursive";
-        ctx.fillStyle = "black";
+        ctx.font = "37px 'Pacifico', cursive";   // 28px → 37px (+33%)
+        ctx.fillStyle = "darkblue";
         ctx.textAlign = "center";
-        ctx.fillText(name, 375, 670);
+        ctx.fillText(name, 375, 705);
       }
 
-      // Mobile number
+      // Mobile number (dark red, bigger font)
       if (mobile) {
-        ctx.fillStyle = "black";
-        ctx.font = "18px Arial Black";
-        ctx.fillText("📱 " + mobile, 375, 700);
+        ctx.fillStyle = "darkred";
+        ctx.font = "24px Arial Black";  // 18px → 24px (+33%)
+        ctx.fillText("📱 " + mobile, 375, 740);
       }
 
-      // Address
+      // Address (dark green, bigger font)
       if (address) {
-        ctx.fillStyle = "black";
-        ctx.font = "18px Arial Black";
-        ctx.fillText("📍 " + address, 375, 730);
+        ctx.fillStyle = "darkgreen";
+        ctx.font = "24px Arial Black";  // 18px → 24px (+33%)
+        ctx.fillText("📍 " + address, 375, 775);
       }
     }
 
@@ -144,3 +144,4 @@
   </script>
 </body>
 </html>
+
