@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganesh Chaturthi Poster Maker</title>
+
+  <!-- Stylish Bold Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fff url('https://png.pngtree.com/thumb_back/fh260/background/20210831/pngtree-ganesha-happy-ganesh-chaturthi-festival-background-image_774430.jpg') no-repeat center top;
+      background-size: cover;
+      padding: 20px;
+    }
+    h2 {
+      color: darkred;
+      font-size: 32px;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 2px #00000055;
+    }
+    canvas {
+      border: 3px solid darkgreen;
+      border-radius: 15px;
+      margin-top: 15px;
+      background: #fff;
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+      background: darkgreen;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>🙏 Ganesh Chaturthi Poster Maker 🙏</h2>
+  
+  <!-- Upload photo -->
+  <input type="file" id="photoInput" accept="image/*"><br>
+  
+  <!-- Enter name -->
+  <input type="text" id="nameInput" placeholder="Enter your name"><br>
+  <input type="text" id="mobileInput" placeholder="Enter Mobile Number"><br>
+  <input type="text" id="addressInput" placeholder="Enter Address"><br>
+  
+  <!-- Buttons -->
+  <button onclick="generatePoster()">Generate Poster</button>
+  <button onclick="downloadPoster()">Download Poster</button>
+  
+  <br>
+  <!-- Canvas -->
+  <canvas id="posterCanvas" width="600" height="800"></canvas>
+  
+  <script>
+    const canvas = document.getElementById("posterCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Background template (Ganesh Poster)
+    const template = new Image();
+    template.src = "ganesh.png";  // fixed background
+
+    let userImage = null;
+
+    // Upload photo
+    document.getElementById("photoInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        userImage = new Image();
+        userImage.src = event.target.result;
+        userImage.onload = () => generatePoster();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function generatePoster() {
+      const name = document.getElementById("nameInput").value;
+      const mobile = document.getElementById("mobileInput").value;
+      const address = document.getElementById("addressInput").value;
+
+      // Draw background template
+      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+
+      // White square coordinates
+      const photoX = 40;   
+      const photoY = 640;   
+      const photoW = 120;   
+      const photoH = 120;   
+
+      // Draw user photo in white square
+      if (userImage) {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(photoX, photoY, photoW, photoH);
+        ctx.drawImage(userImage, photoX, photoY, photoW, photoH);
+      }
+
+      // Dark green rectangle for text background
+      ctx.fillStyle = "darkgreen";
+      ctx.fillRect(200, 650, 350, 120);
+
+      // Name
+      if (name) {
+        ctx.font = "28px 'Pacifico', cursive";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.fillText(name, 375, 685);
+      }
+
+      // Mobile number button style
+      if (mobile) {
+        ctx.fillStyle = "white";
+        ctx.font = "18px Arial Black";
+        ctx.fillText("📱 " + mobile, 375, 715);
+      }
+
+      // Address button style
+      if (address) {
+        ctx.fillStyle = "white";
+        ctx.font = "18px Arial Black";
+        ctx.fillText("📍 " + address, 375, 745);
+      }
+    }
+
+    function downloadPoster() {
+      const link = document.createElement("a");
+      link.download = "GaneshPoster.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+
+    template.onload = () => generatePoster();
+  </script>
+</body>
+</html>
