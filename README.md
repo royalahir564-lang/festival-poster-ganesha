@@ -1,1 +1,1 @@
-# festival-poster-ganesha
+# festival-poster-Navratri
