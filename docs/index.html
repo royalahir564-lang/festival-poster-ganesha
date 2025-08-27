@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ganesh Poster Maker 🎨</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Lobster&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+body{
+    font-family: 'Poppins', sans-serif;
+    margin:0;
+    background:#fdf6e3;
+    text-align:center;
+}
+.hero{
+    padding:20px;
+    background:linear-gradient(90deg,#ffecb3,#ffe0b2);
+    box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+.hero h1{
+    font-family:'Pacifico', cursive;
+    font-size:36px;
+    color:#d84315;
+    margin:0;
+}
+.hero p{
+    font-size:16px;
+    color:#333;
+}
+.container{
+    margin:20px auto;
+    max-width:650px;
+}
+canvas{
+    border:3px solid #388e3c;
+    border-radius:15px;
+    max-width:100%;
+    margin:15px 0;
+    background:white;
+}
+input,select,button,a{
+    margin:5px;
+    padding:10px;
+    border-radius:8px;
+    font-size:16px;
+}
+button,a{
+    background:#388e3c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+}
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+}
+.sticker-btn{font-size:24px;cursor:pointer;margin:0 5px;}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>🙏 Ganesh Chaturthi Poster Maker 🙏</h1>
+<p>This page is made by <b>Rahul Gojiya</b>. For any query contact: <b>9265400740</b></p>
+</div>
+
+<div class="container">
+<input type="file" id="photoInput" accept="image/*"><br>
+<input type="text" id="nameInput" placeholder="Enter your name"><br>
+<input type="text" id="mobileInput" placeholder="Enter Mobile Number"><br>
+<input type="text" id="addressInput" placeholder="Enter Address"><br>
+
+<label>Font:</label>
+<select id="fontSelect">
+<option value="'Pacifico', cursive">Pacifico</option>
+<option value="'Lobster', cursive">Lobster</option>
+<option value="'Poppins', sans-serif">Poppins</option>
+<option value="Arial, sans-serif">Arial</option>
+</select>
+
+<label>Color:</label>
+<input type="color" id="colorPicker" value="#00008B">
+<label>Size:</label>
+<input type="range" id="fontSizeSlider" min="20" max="60" value="37"><br>
+
+<span>🎨 Add Stickers:</span>
+<span class="sticker-btn" onclick="selectSticker('ganesh')">🐘</span>
+<span class="sticker-btn" onclick="selectSticker('diya')">🪔</span>
+<span class="sticker-btn" onclick="selectSticker('modak')">🍬</span><br>
+
+<div class="controls">
+<button onclick="generatePoster()">Generate Poster</button>
+<button onclick="downloadPoster()">Download Poster</button>
+<a id="shareBtn" target="_blank">📤 Share on WhatsApp</a>
+</div>
+
+<canvas id="posterCanvas" width="600" height="800"></canvas>
+</div>
+
+<script>
+const canvas=document.getElementById("posterCanvas");
+const ctx=canvas.getContext("2d");
+const template=new Image();
+template.src="ganesh.png";
+let userImage=null;
+let stickers=[];
+let selectedSticker=null;
+
+// Upload user photo
+document.getElementById("photoInput").addEventListener("change",e=>{
+const file=e.target.files[0];
+if(!file)return;
+const reader=new FileReader();
+reader.onload=function(event){
+userImage=new Image();
+userImage.src=event.target.result;
+userImage.onload=()=>generatePoster();
+};
+reader.readAsDataURL(file);
+});
+
+// Sticker selection
+function selectSticker(name){selectedSticker=name;}
+canvas.addEventListener("click",e=>{
+if(!selectedSticker)return;
+const rect=canvas.getBoundingClientRect();
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+stickers.push({type:selectedSticker,x,y});
+generatePoster();
+});
+
+function generatePoster(){
+const name=document.getElementById("nameInput").value;
+const mobile=document.getElementById("mobileInput").value;
+const address=document.getElementById("addressInput").value;
+const fontFamily=document.getElementById("fontSelect").value;
+const nameColor=document.getElementById("colorPicker").value;
+const nameSize=document.getElementById("fontSizeSlider").value;
+
+// Draw background
+ctx.drawImage(template,0,0,canvas.width,canvas.height);
+
+// User photo box
+const photoX=40,photoY=630,photoW=120,photoH=150;
+if(userImage){
+ctx.fillStyle="#fff";
+ctx.fillRect(photoX,photoY,photoW,photoH);
+ctx.drawImage(userImage,photoX,photoY,photoW,photoH);
+}
+
+// White rectangle for text
+ctx.fillStyle="white";
+ctx.fillRect(200,660,350,220); 
+
+// "Made by Rangvika Graphics" above rectangle
+ctx.font="16px Arial";
+ctx.fillStyle="black";
+ctx.textAlign="center";
+ctx.fillText("Made by Rangvika Graphics ❤️",375,645);
+
+// Name safely inside rectangle
+ctx.font=`${nameSize}px ${fontFamily}`;
+ctx.fillStyle=nameColor;
+ctx.textAlign="center";
+ctx.fillText(name, 375, 710); // <-- safely inside rectangle
+
+// Mobile
+if(mobile){
+ctx.font = "24px Arial Black";
+ctx.fillStyle = "darkred";
+ctx.textAlign = "center";
+ctx.fillText("📱 "+mobile, 375, 750);
+}
+
+// Address
+if(address){
+ctx.font = "24px Arial Black";
+ctx.fillStyle = "darkgreen";
+ctx.textAlign = "center";
+ctx.fillText("📍 "+address, 375, 790);
+}
+
+// Stickers
+ctx.font="32px Arial";
+stickers.forEach(s=>{
+let symbol="";
+if(s.type==="ganesh")symbol="🐘";
+if(s.type==="diya")symbol="🪔";
+if(s.type==="modak")symbol="🍬";
+ctx.fillText(symbol,s.x,s.y);
+});
+
+// WhatsApp Share
+const imageURL=canvas.toDataURL("image/png");
+document.getElementById("shareBtn").href="https://wa.me/?text="+encodeURIComponent("🙏 Happy Ganesh Chaturthi 🙏\nHere is my poster:\n"+imageURL);
+}
+
+function downloadPoster(){
+const link=document.createElement("a");
+link.download="GaneshPoster.png";
+link.href=canvas.toDataURL();
+link.click();
+}
+
+template.onload=()=>generatePoster();
+</script>
+</body>
+</html>
