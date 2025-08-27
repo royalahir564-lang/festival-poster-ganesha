@@ -82,7 +82,7 @@
   <button onclick="generatePoster()">Generate Poster</button>
   <button onclick="downloadPoster()">Download Poster</button>
   <a id="shareBtn" target="_blank">📤 Share on WhatsApp</a>
-  <button onclick="toggleDarkMode()">🌙 Toggle Dark/Light Mode</button>
+  <button onclick="toggleDarkMode()"> ☀️ Dark/Light Mode</button>
   
   <br>
   <!-- Canvas -->
@@ -162,9 +162,9 @@
       ctx.font = "14px Arial";
       ctx.fillStyle = "black";
       ctx.textAlign = "right";
-      ctx.fillText("Made by Rangvika Graphics ❤️", 580, 790);
+      ctx.fillText("Made by Rangvika Graphics ❤️", 580, 850);
 
-      // Update WhatsApp Share button
+      // Update Whatsapp Share button
       const imageURL = canvas.toDataURL("image/png");
       const shareBtn = document.getElementById("shareBtn");
       shareBtn.href = "https://wa.me/?text=" + encodeURIComponent("🙏 Happy Ganesh Chaturthi 🙏\nMade my poster here: " + imageURL);
