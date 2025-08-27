@@ -165,10 +165,12 @@
       }
 
       // Watermark
-      ctx.font = "14px Arial";
-      ctx.fillStyle = "black";
-      ctx.textAlign = "right";
-      ctx.fillText("Made by Rangvika Graphics ❤️", 580, 790);
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+     // thoda niche shift aur canvas ke andar
+        ctx.fillText("Made by Rangvika Graphics ❤️", canvas.width - 10, canvas.height - 10);
+
 
       // Update WhatsApp Share
       const imageURL = canvas.toDataURL("image/png");
