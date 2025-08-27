@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Navratri poster maker is by Rangvika Graphics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Poster Card */
+    .card {
+      position: relative;
+      width: 90vw;
+      max-width: 450px;
+      aspect-ratio: 2/3;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      overflow: hidden;
+      background: url("navratri.png") no-repeat center/cover;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 15px;
+      width: 18%;
+      max-width: 70px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 12px;
+      color: #777;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Poster Title */
+    .poster-title {
+      position: absolute;
+      bottom: 55px;
+      width: 100%;
+      text-align: center;
+      background: rgba(255,255,255,0.8);
+      padding: 6px 0;
+      font-weight: bold;
+      font-size: 14px;
+      color: #000;
+    }
+
+    /* Company Details */
+    .company-details {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      background: rgba(255,255,255,0.7);
+      padding: 4px 0;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Buttons */
+    .buttons, .social-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button, a {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .upload-btn { background: #007bff; }
+    .edit-btn { background: #28a745; }
+    .download-btn { background: #ff5722; }
+    .instagram-btn { background: #E1306C; }
+    .whatsapp-btn { background: #25D366; }
+
+    /* Contact Text */
+    .contact-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Poster -->
+  <div class="card" id="poster">
+    <div class="logo" id="logo">Logo</div>
+    <div class="poster-title">
+      Rangvika Graphics – Ultimate Navratri Poster Maker
+    </div>
+    <div class="company-details" id="companyDetails"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <input type="file" id="logoInput" accept="image/*" style="display:none;">
+    <button class="upload-btn" onclick="document.getElementById('logoInput').click()">Upload Logo</button>
+    <button class="edit-btn" onclick="editDetails()">Edit Company Details</button>
+    <button class="download-btn" onclick="downloadPoster()">Download Poster</button>
+  </div>
+
+  <!-- Contact Text -->
+  <div class="contact-text">
+    If You Want Premium Posters For Your Business Then Contact Us
+  </div>
+
+  <!-- Social Buttons -->
+  <div class="social-buttons">
+    <a href="https://www.instagram.com/rangvika?igsh=OHZvcXg3dWFyamNj" target="_blank" class="instagram-btn">📸 Follow on Instagram</a>
+    <a href="https://wa.link/v1j47t" target="_blank" class="whatsapp-btn">💬 Contact on WhatsApp</a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    // Upload Logo
+    document.getElementById('logoInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('logo').innerHTML = `<img src="${event.target.result}" alt="Logo">`;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Edit Details
+    function editDetails() {
+      const name = prompt("Enter Company Name & City:", "");
+      const number = prompt("Enter Mobile Number:", "");
+      if (name || number) {
+        document.getElementById('companyDetails').innerHTML = `${name}<br>${number}`;
+      }
+    }
+
+    // Download Poster
+    function downloadPoster() {
+      const poster = document.getElementById("poster");
+      html2canvas(poster).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "navratri-poster.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+  </script>
+
+</body>
+</html>
